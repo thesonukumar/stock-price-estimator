@@ -83,3 +83,58 @@ def estimate_next_week_price(price_data):
 
     except Exception:
         return None
+    
+
+# ----------------------------------------
+# 🔹 Combine both summary + earnings
+# ----------------------------------------
+def get_full_market_brief(symbol):
+    """
+    Returns combined market brief with:
+    - summary: real-time + profile
+    - earnings: latest report
+    """
+    summary = get_stock_summary(symbol)
+    earnings = get_earnings_info(symbol)
+
+    return {
+        "summary": summary,
+        "history": [],  # Placeholder, not used with Finnhub now
+        "earnings": earnings
+    }
+
+
+
+# ----------------------------------------
+# 🔹 Get most recent earnings data
+# ----------------------------------------
+def get_earnings_info(symbol):
+    """
+    Fetch the most recent earnings report from Finnhub.
+    Returns:
+        Dictionary with estimated and actual EPS, surprise percentage.
+    """
+    try:
+        url = f"{BASE_URL}/calendar/earnings"
+        params = {
+            "symbol": symbol,
+            "from": "2024-01-01",  # Can be dynamically set if needed
+            "to": "2025-12-31",
+            "token": FINNHUB_API_KEY
+        }
+
+        res = requests.get(url, params=params).json()
+
+        if "earningsCalendar" in res and res["earningsCalendar"]:
+            latest = res["earningsCalendar"][0]
+            return {
+                "date": latest.get("date"),
+                "epsEstimate": latest.get("epsEstimate", "N/A"),
+                "actualEPS": latest.get("actual", "N/A"),
+                "surprise": latest.get("surprisePercent", "N/A")
+            }
+
+        return {"message": "No earnings data available."}
+
+    except Exception as e:
+        return {"error": f"Error fetching earnings data for {symbol}: {str(e)}"}

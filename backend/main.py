@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from agents.api_agent import get_full_market_brief, estimate_next_week_price
+from agents.language_agent import generate_market_summary
 
 app = FastAPI(
     title="Multi-Agent Finance Assistant",
@@ -27,6 +28,27 @@ app.add_middleware(
 def home():
     return {"message": "🚀 Finance Assistant with Gemini, Whisper, and TTS is running."}
 
+
+# -------------------------------------
+# ✅ Market Summary from Stock Symbol
+# -------------------------------------
+@app.get("/summary")
+def get_summary(ticker: str = Query(..., description="Stock symbol like AAPL, TSLA, GOOGL")):
+    """
+    Fetches market data for a stock and returns a Gemini-generated summary.
+    """
+    try:
+        market_data = get_full_market_brief(ticker)
+        summary = generate_market_summary(market_data)
+
+        return {
+            "ticker": ticker.upper(),
+            "summary": summary,
+            "raw_data": market_data
+        }
+
+    except Exception as e:
+        return {"error": f"Error processing request: {str(e)}"}
 
 
 # -------------------------------------

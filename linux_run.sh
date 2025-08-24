@@ -23,7 +23,7 @@ gnome-terminal -- bash -c "uvicorn main:app --reload; exec bash"
 cd ..
 
 echo "[+] Starting Frontend"
-cd front
+cd frontend
 gnome-terminal -- bash -c "npm run dev; exec bash"
 cd ..
 

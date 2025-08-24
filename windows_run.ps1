@@ -4,7 +4,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", "uvicorn main:app 
 cd ..
 
 Write-Output "[+] Starting Frontend"
-cd front
+cd frontend
 Start-Process powershell -ArgumentList "-NoExit", "-Command", "npm run dev"
 cd ..
 
