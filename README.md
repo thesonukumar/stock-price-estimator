@@ -28,15 +28,14 @@ A modern **AI-powered finance assistant** that fetches **real-time stock market 
 
 ## ⚙️ Installation & Setup
 
-### **1️⃣ Clone the repository**
+### **1. Clone the repository**
 
 ```bash
 git clone https://github.com/thesonukumar/stock-price-estimator.git
 cd stock-price-estimator
-./windows_run.ps1 OR linux_run.sh
 ```
 
-### **2️⃣ Backend Setup**
+### **2. Backend Setup**
 
 ```bash
 cd backend
@@ -61,7 +60,7 @@ uvicorn main:app --host 0.0.0.0 -port 8000
 Backend will run at: http://0.0.0.0:8000
 
 
-### **3️⃣ Frontend Setup**
+### **3. Frontend Setup**
 
 ```bash
 cd frontend
@@ -70,6 +69,11 @@ npm run dev
 ```
 
 Frontend will run at: http://localhost:5173
+
+
+### BONUS
+
+To run again after setup just run linux_run.sh or windows_run.ps1 according to your OS.
 
 ---
 
