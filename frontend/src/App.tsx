@@ -11,7 +11,6 @@ const App: React.FC = () => {
   const [transcription, setTranscription] = useState<string>('');
   const [recording, setRecording] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [mediaStream, setMediaStream] = useState<MediaStream | null>(null);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -25,7 +24,7 @@ const App: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get(`http://localhost:8000/summary?ticker=${targetTicker}`);
+      const res = await axios.get(`http://stock-price-estimator.onrender.com/summary?ticker=${targetTicker}`);
       const data = res.data;
 
       setSummary(data.summary);
@@ -82,7 +81,6 @@ const App: React.FC = () => {
   const startRecording = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      setMediaStream(stream);
 
       const mediaRecorder = new MediaRecorder(stream);
       mediaRecorderRef.current = mediaRecorder;
@@ -111,7 +109,7 @@ const App: React.FC = () => {
         formData.append('file', audioBlob, 'recording.webm');
 
         try {
-          await axios.post('http://localhost:8000/transcribe', formData);
+          await axios.post('http://stock-price-estimator.onrender.com/transcribe', formData);
           const mockTranscription = ticker.toUpperCase();
           setTranscription(mockTranscription);
           setTicker(mockTranscription);
@@ -121,7 +119,6 @@ const App: React.FC = () => {
         }
 
         stream.getTracks().forEach((track) => track.stop());
-        setMediaStream(null);
       };
 
       mediaRecorder.start();
