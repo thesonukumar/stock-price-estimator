@@ -24,7 +24,7 @@ const App: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await axios.get(`http://stock-price-estimator.onrender.com/summary?ticker=${targetTicker}`);
+      const res = await axios.get(`https://stock-price-estimator.onrender.com/summary?ticker=${targetTicker}`);
       const data = res.data;
 
       setSummary(data.summary);
@@ -109,7 +109,7 @@ const App: React.FC = () => {
         formData.append('file', audioBlob, 'recording.webm');
 
         try {
-          await axios.post('http://stock-price-estimator.onrender.com/transcribe', formData);
+          await axios.post('https://stock-price-estimator.onrender.com/transcribe', formData);
           const mockTranscription = ticker.toUpperCase();
           setTranscription(mockTranscription);
           setTicker(mockTranscription);
