@@ -59,7 +59,7 @@ def generate_market_summary(market_data):
             f"{prompt_data}"
         )
 
-        model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         response = model.generate_content(prompt)
 
         return response.text.strip()
